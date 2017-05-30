@@ -1,14 +1,4 @@
-import pytest
-
-from fixture.application import Application
 from model.group import Group
-
-
-@pytest.fixture
-def app(request):
-    wd = Application()
-    request.addfinalizer(wd.destroy)
-    return wd
 
 
 def test_add_group(app):
