@@ -5,19 +5,19 @@ from model.group import Group
 
 
 @pytest.fixture
-def driver(request):
+def app(request):
     wd = Application()
     request.addfinalizer(wd.destroy)
     return wd
 
 
-def test_add_group(driver):
-    driver.login(username="admin", password="secret")
-    driver.create_group(Group(name="asdasd", header="asdasdd", footer="dsafdas"))
-    driver.logout()
+def test_add_group(app):
+    app.session.login(username="admin", password="secret")
+    app.create_group(Group(name="asdasd", header="asdasdd", footer="dsafdas"))
+    app.session.logout()
 
 
-def test_add_empty_group(driver):
-    driver.login(username="admin", password="secret")
-    driver.create_group(Group(name="", header="", footer=""))
-    driver.logout()
+def test_add_empty_group(app):
+    app.session.login(username="admin", password="secret")
+    app.create_group(Group(name="", header="", footer=""))
+    app.session.logout()
