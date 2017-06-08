@@ -1,3 +1,5 @@
+from model.group import Group
+
 class GroupHelper:
 
     def __init__(self, app):
@@ -57,4 +59,20 @@ class GroupHelper:
 
     def open_groups_page(self):
         driver = self.app.wd
-        driver.find_element_by_link_text("groups").click()
+        if not (driver.current_url.endswith("/group.php") and len(driver.find_elements_by_name("new")) > 0):
+            driver.find_element_by_link_text("groups").click()
+
+    def count(self):
+        driver = self.app.wd
+        self.open_groups_page()
+        return len(driver.find_elements_by_name("selected[]"))
+
+    def get_group_list(self):
+        driver = self.app.wd
+        self.open_groups_page()
+        groups = []
+        for element in driver.find_elements_by_css_selector("span.group"):
+            text = element.text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            groups.append(Group(name=text, id=id))
+        return groups
