@@ -12,7 +12,7 @@ class SessionHelper:
         driver.find_element_by_name("pass").click()
         driver.find_element_by_name("pass").clear()
         driver.find_element_by_name("pass").send_keys(password)
-        driver.find_element_by_css_selector("input[type=\"submit\"]").click()
+        driver.find_element_by_css_selector('input[type="submit"]').click()
 
     def logout(self):
         driver = self.app.wd
@@ -28,8 +28,11 @@ class SessionHelper:
         return len(driver.find_elements_by_link_text("Logout")) > 0
 
     def is_logged_in_as(self, username):
+        return self.get_logged_user() == username
+
+    def get_logged_user(self):
         driver = self.app.wd
-        return driver.find_element_by_xpath("//div/div[1]/form/b").text == "(" + username + ")"
+        return driver.find_element_by_xpath("//div/div[1]/form/b").text[1:-1]
 
     def ensure_login(self, username, password):
         driver = self.app.wd
